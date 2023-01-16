@@ -3,7 +3,7 @@ import { ButtonText } from "../../components/ButtonText";
 import { DefaultSection } from "../../components/DefaultSection";
 import { Header } from "../../components/Header";
 import { Tag } from "../../components/Tag";
-import { Content, DetailsContainer, Links } from "./styles";
+import { DetailsContent, DetailsContainer, Links } from "./styles";
 
 export function Details() {
   return (
@@ -11,8 +11,8 @@ export function Details() {
       <Header />
 
       <main>
-        <Content>
-          <ButtonText title="Excluir nota" />
+        <DetailsContent>
+          <ButtonText title="Excluir nota" isActive />
 
           <h1>
             Introdução ao React
@@ -39,7 +39,7 @@ export function Details() {
           </DefaultSection>
 
           <Button title="Voltar" />
-        </Content>
+        </DetailsContent>
       </main>
     </DetailsContainer>
   )

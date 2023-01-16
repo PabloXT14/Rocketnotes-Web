@@ -29,7 +29,7 @@ export const Links = styled.ul`
   }
 `;
 
-export const Content = styled.div`
+export const DetailsContent = styled.div`
   max-width: 550px;
   margin: 0 auto;
 
