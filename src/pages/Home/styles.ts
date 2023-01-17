@@ -62,8 +62,7 @@ export const HomeContent = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 4rem;
-
-
+  overflow-y: scroll;
 `;
 
 export const NewNote = styled.button`

@@ -1,11 +1,16 @@
-import { HtmlHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes } from 'react';
 import { Tag } from '../../../../components/Tag';
 import { NoteContainer } from './styles';
 
-type NoteProps = HtmlHTMLAttributes<HTMLDivElement> & {
+type Tag = {
+  id: string;
+  name: string;
+}
+
+type NoteProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   data: {
     title: string;
-    tags: string[];
+    tags: Tag[];
   }
 }
 
@@ -15,11 +20,14 @@ export function Note({ data, ...rest }: NoteProps) {
       {...rest}
     >
       <h2>{data.title}</h2>
-      <div>
-        {data.tags.map(tag => (
-          <Tag key={Math.floor(Math.random() * Date.now())} title={tag} />
-        ))}
-      </div>
+      {
+        data.tags.length > 0 &&
+        <footer>
+          {data.tags.map(tag => (
+            <Tag key={tag.id} title={tag.name} />
+          ))}
+        </footer>
+      }
     </NoteContainer>
   );
 }

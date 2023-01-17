@@ -1,25 +1,36 @@
 import { ButtonText } from '../../components/ButtonText';
 import { Header } from '../../components/Header';
-import { FiPlus, FiSearch } from 'react-icons/fi';
+import { FiPlus } from 'react-icons/fi';
 import { HomeContainer, Brand, Menu, Search, HomeContent, NewNote } from './styles';
 import { Input } from '../../components/Input';
 import { DefaultSection } from '../../components/DefaultSection';
 import { Note } from './components/Note';
+import { generateRandomId } from '../../utils/randomId';
 
-interface HomeProps {
-
-}
 
 export function Home() {
   const fakeNotes = [
     { 
       title: 'React Modal',
-      tags: ['react']
+      tags: [
+        { id: generateRandomId(), name: 'react'}
+      ]
     },
     { 
       title: 'Exemplo de Middleware',
-      tags: ['express', 'nodejs']
-    }
+      tags: [
+        { id: generateRandomId(), name: 'nodejs'},
+        { id: generateRandomId(), name: 'express'},
+      ]
+    },
+    { 
+      title: 'Exemplo de Middleware',
+      tags: [
+        { id: generateRandomId(), name: 'nodejs'},
+        { id: generateRandomId(), name: 'express'},
+      ]
+    },
+    
   ]
 
   return (
@@ -53,7 +64,10 @@ export function Home() {
         <DefaultSection title='Minhas notas'>
           {
             fakeNotes.map(note => (
-              <Note key={Math.floor(Math.random() * Date.now())} data={note} />
+              <Note
+                key={generateRandomId()}
+                data={note}
+              />
             ))
           }
         </DefaultSection>

@@ -4,9 +4,9 @@ interface TagProps {
   title: string;
 }
 
-export function Tag({ title }: TagProps) {
+export function Tag({ title, ...rest }: TagProps) {
   return (
-    <TagContainer>
+    <TagContainer {...rest}>
       {title}
     </TagContainer>
   )
