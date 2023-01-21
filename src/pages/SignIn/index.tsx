@@ -1,5 +1,5 @@
 import { Input } from "../../components/Input";
-import { Form, SignInContainer } from "./styles";
+import { Background, Form, SignInContainer } from "./styles";
 
 import { FiMail, FiLock } from 'react-icons/fi';
 import { Button } from "../../components/Button";
@@ -31,6 +31,8 @@ export function SignIn() {
           Criar conta
         </a>
       </Form>
+
+      <Background />
     </SignInContainer>
   )
 }

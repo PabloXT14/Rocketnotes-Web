@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import backgroundImg from '../../assets/background-signin.png';
 
 export const SignInContainer = styled.div`
   height: 100vh;
@@ -37,4 +38,11 @@ export const Form = styled.form`
     margin-top: 8rem;
     color: ${({ theme }) => theme.COLORS.ORANGE};
   }
+`;
+
+export const Background = styled.div`
+  flex: 1;
+
+  background: url(${backgroundImg}) no-repeat center center;
+  background-size: cover;
 `;
