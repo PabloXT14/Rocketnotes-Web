@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import backgroundImg from '../../assets/background-signin.png';
 
-export const SignInContainer = styled.div`
+export const SignUpContainer = styled.div`
   height: 100vh;
 
   display: flex;
