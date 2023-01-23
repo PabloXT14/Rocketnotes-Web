@@ -10,27 +10,27 @@ import { generateRandomId } from '../../utils/randomId';
 
 export function Home() {
   const fakeNotes = [
-    { 
+    {
       title: 'React Modal',
       tags: [
-        { id: generateRandomId(), name: 'react'}
+        { id: generateRandomId(), name: 'react' }
       ]
     },
-    { 
+    {
       title: 'Exemplo de Middleware',
       tags: [
-        { id: generateRandomId(), name: 'nodejs'},
-        { id: generateRandomId(), name: 'express'},
+        { id: generateRandomId(), name: 'nodejs' },
+        { id: generateRandomId(), name: 'express' },
       ]
     },
-    { 
+    {
       title: 'Exemplo de Middleware',
       tags: [
-        { id: generateRandomId(), name: 'nodejs'},
-        { id: generateRandomId(), name: 'express'},
+        { id: generateRandomId(), name: 'nodejs' },
+        { id: generateRandomId(), name: 'express' },
       ]
     },
-    
+
   ]
 
   return (
@@ -63,17 +63,22 @@ export function Home() {
       <HomeContent>
         <DefaultSection title='Minhas notas'>
           {
-            fakeNotes.map(note => (
-              <Note
-                key={generateRandomId()}
-                data={note}
-              />
-            ))
+            fakeNotes.map(note => {
+              const randomId = generateRandomId();
+              return (
+                <Note
+                  key={randomId}
+                  to={`/details/${randomId}`}
+                  data={note}
+                />
+              )
+
+            })
           }
         </DefaultSection>
       </HomeContent>
 
-      <NewNote>
+      <NewNote to="/new">
         <FiPlus />
         Criar nota
       </NewNote>

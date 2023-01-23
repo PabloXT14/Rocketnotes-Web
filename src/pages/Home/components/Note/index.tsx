@@ -1,3 +1,4 @@
+import { LinkProps } from 'react-router-dom';
 import { ButtonHTMLAttributes } from 'react';
 import { Tag } from '../../../../components/Tag';
 import { NoteContainer } from './styles';
@@ -7,7 +8,7 @@ type Tag = {
   name: string;
 }
 
-type NoteProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+type NoteProps = LinkProps & {
   data: {
     title: string;
     tags: Tag[];

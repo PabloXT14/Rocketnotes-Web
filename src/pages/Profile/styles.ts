@@ -19,6 +19,12 @@ export const ProfileContainer = styled.div`
       color: ${({ theme }) => theme.COLORS.GRAY_100};
       font-size: 1.5rem;
     }
+
+    button {
+      display: flex;
+      border: none;
+      background: none;
+    }
   }
 `;
 

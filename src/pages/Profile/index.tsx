@@ -1,15 +1,22 @@
+import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiUser, FiMail, FiLock, FiCamera } from 'react-icons/fi';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Avatar, Form, ProfileContainer } from "./styles";
 
 export function Profile() {
+  const navigate = useNavigate();
+
+  function goBack() {
+    navigate(-1);
+  }
+
   return (
     <ProfileContainer>
       <header>
-        <a href="#">
+        <button type="button" onClick={goBack}>
           <FiArrowLeft />
-        </a>
+        </button>
       </header>
 
       <Form>

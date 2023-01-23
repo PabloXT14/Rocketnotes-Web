@@ -4,8 +4,15 @@ import { DefaultSection } from "../../components/DefaultSection";
 import { Header } from "../../components/Header";
 import { Tag } from "../../components/Tag";
 import { DetailsContent, DetailsContainer, Links } from "./styles";
+import { useNavigate } from 'react-router-dom';
 
 export function Details() {
+  const navigate = useNavigate();
+
+  function goBack() {
+    navigate(-1);
+  }
+
   return (
     <DetailsContainer>
       <Header />
@@ -38,7 +45,7 @@ export function Details() {
             <Tag title="express" />
           </DefaultSection>
 
-          <Button title="Voltar" />
+          <Button title="Voltar" onClick={goBack}/>
         </DetailsContent>
       </main>
     </DetailsContainer>
