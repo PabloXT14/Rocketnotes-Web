@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { FiCamera } from 'react-icons/fi';
 
 export const ProfileContainer = styled.div`
   width: 100%;

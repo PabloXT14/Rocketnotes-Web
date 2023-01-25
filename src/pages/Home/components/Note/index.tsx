@@ -1,5 +1,4 @@
 import { LinkProps } from 'react-router-dom';
-import { ButtonHTMLAttributes } from 'react';
 import { Tag } from '../../../../components/Tag';
 import { NoteContainer } from './styles';
 
