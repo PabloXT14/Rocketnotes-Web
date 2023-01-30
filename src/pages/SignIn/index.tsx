@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 import { Input } from "../../components/Input";
 import { Background, Form, SignInContainer } from "./styles";
 
@@ -6,6 +7,10 @@ import { FiMail, FiLock } from 'react-icons/fi';
 import { Button } from "../../components/Button";
 
 export function SignIn() {
+  const { userData } = useAuth();
+ 
+  console.log(userData);
+
   return (
     <SignInContainer>
       <Form>
