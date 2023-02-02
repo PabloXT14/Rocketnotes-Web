@@ -5,6 +5,9 @@ interface UserData {
   name: string,
   email: string,
   password: string,
+  avatar_url: string | null,
+  created_at: string;
+  updated_at: string;
 }
 
 interface AuthContextData {
@@ -12,6 +15,18 @@ interface AuthContextData {
   authToken: string;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
+  updateProfile: (userRequestData: UserUpdateRequestData) => Promise<void>;
+}
+
+interface UserUpdateRequestData {
+  updateUserData: {
+    name: string;
+    email: string;
+    newPassword?: string;
+    oldPassword?: string;
+    avatar_url?: string;
+  },
+  avatarFile: File | null;
 }
 
 const AuthContext = createContext({} as AuthContextData);
@@ -26,7 +41,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function signIn(email: string, password: string) {
     try {
-      const response = await api.post("/sessions", { email,password })
+      const response = await api.post("/sessions", { email, password })
       const { token, user } = response.data;
 
       localStorage.setItem("@rocketnotes:user", JSON.stringify(user));
@@ -40,8 +55,8 @@ function AuthProvider({ children }: AuthProviderProps) {
 
       alert("Usuário logado com sucesso!");
 
-    } catch(error: any) {
-      if(error.response) {
+    } catch (error: any) {
+      if (error.response) {
         alert(error.response.data.message);
       } else {
         alert("Não foi possível efetuar o login.");
@@ -56,11 +71,45 @@ function AuthProvider({ children }: AuthProviderProps) {
     setUserData({} as UserData);
   }
 
+  async function updateProfile({ updateUserData, avatarFile }: UserUpdateRequestData) {
+    try {
+      if(avatarFile) {
+        // FORMATANDO ARQUIVO DE AVATAR PARA O FORMATO CORRETO PARA O ENVIO NA REQUISIÇÃO
+        const fileUploadForm = new FormData();
+        fileUploadForm.append("avatar", avatarFile);
+
+        const response = await api.patch("/users/avatar", fileUploadForm);
+        updateUserData.avatar_url = response.data.avatar_url;
+      }
+
+      await api.put("/users", updateUserData);
+      localStorage.setItem("@rocketnotes:user", JSON.stringify(updateUserData));
+
+      setUserData(prevState => {
+        return {
+          ...prevState,
+          name: updateUserData.name,
+          email: updateUserData.email,
+          password: updateUserData.newPassword || prevState.password,
+          avatar_url: updateUserData.avatar_url || prevState.avatar_url,
+        }
+      });
+
+      alert("Perfil atualizado");
+    } catch (error: any) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Não foi possível atualizar o perfil.");
+      }
+    }
+  }
+
   useEffect(() => {
     const user = localStorage.getItem("@rocketnotes:user");
     const token = localStorage.getItem("@rocketnotes:token");
 
-    if(user && token) {
+    if (user && token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
       setUserData(JSON.parse(user));
@@ -69,11 +118,12 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ 
-      userData, 
-      authToken, 
+    <AuthContext.Provider value={{
+      userData,
+      authToken,
       signIn,
-      signOut
+      signOut,
+      updateProfile
     }}>
       {children}
     </AuthContext.Provider>
