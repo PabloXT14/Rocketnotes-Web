@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import { api } from '../../services/index';
 import { ButtonText } from '../../components/ButtonText';
 import { Header } from '../../components/Header';
 import { FiPlus } from 'react-icons/fi';
@@ -7,8 +9,14 @@ import { DefaultSection } from '../../components/DefaultSection';
 import { Note } from './components/Note';
 import { generateRandomId } from '../../utils/randomId';
 
+interface Tag {
+  id: string;
+  name: string;
+}
 
 export function Home() {
+  const [tagsFilter, setTagsFilter] = useState<Tag[]>([]);
+
   const fakeNotes = [
     {
       title: 'React Modal',
@@ -33,6 +41,15 @@ export function Home() {
 
   ]
 
+  useEffect(() => {
+    async function fetchTags() {
+      const response = await api.get("/tags");
+      setTagsFilter(response.data);
+    }
+
+    fetchTags();
+  }, [])
+
   return (
     <HomeContainer>
       <Brand>
@@ -45,15 +62,11 @@ export function Home() {
         <li>
           <ButtonText title='Todos' isActive />
         </li>
-        <li>
-          <ButtonText title='Frontend' />
-        </li>
-        <li>
-          <ButtonText title='Node' />
-        </li>
-        <li>
-          <ButtonText title='React' />
-        </li>
+        {tagsFilter && tagsFilter.map((tag) => (
+          <li key={tag.id}>
+            <ButtonText title={tag.name} />
+          </li>
+        ))}
       </Menu>
 
       <Search>
