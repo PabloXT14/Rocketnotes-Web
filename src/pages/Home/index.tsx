@@ -7,6 +7,7 @@ import { HomeContainer, Brand, Menu, Search, HomeContent, NewNote } from './styl
 import { Input } from '../../components/Input';
 import { DefaultSection } from '../../components/DefaultSection';
 import { Note } from './components/Note';
+import { useNavigate } from 'react-router-dom';
 
 interface Tag {
   id: string;
@@ -26,7 +27,13 @@ export function Home() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [noteSearch, setNoteSearch] = useState("");
 
+  const navigate = useNavigate();
+
   function handleTagFilterSelected(tagName: string) {
+    if (tagName === "all") {
+      return setTagsFilterSelected([]);
+    }
+
     const isTagFilterAlreadySelected = tagsFilterSelected.includes(tagName);
 
     if(isTagFilterAlreadySelected) {
@@ -38,6 +45,10 @@ export function Home() {
     }
 
     setTagsFilterSelected(prevState => [...prevState, tagName]);
+  }
+
+  function handleOpenNoteDetails(noteId: string) {
+    navigate(`/details/${noteId}`);
   }
 
   useEffect(() => {
@@ -102,8 +113,8 @@ export function Home() {
               return (
                 <Note
                   key={note.id}
-                  to={`/details/${note.id}`}
                   data={note}
+                  onClick={() => handleOpenNoteDetails(note.id)}
                 />
               )
 

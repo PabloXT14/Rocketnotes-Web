@@ -44,7 +44,6 @@ function AuthProvider({ children }: AuthProviderProps) {
       const response = await api.post("/sessions", { email, password })
       const { token, user } = response.data;
 
-      localStorage.setItem("@rocketnotes:user", JSON.stringify(user));
       localStorage.setItem("@rocketnotes:token", token);
 
       /* INSERINDO TOKEN NO HEADER DE TODAS AS REQUISIÇÕES */
@@ -65,7 +64,6 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   function signOut() {
-    localStorage.removeItem("@rocketnotes:user");
     localStorage.removeItem("@rocketnotes:token");
 
     setUserData({} as UserData);
@@ -73,7 +71,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function updateProfile({ updateUserData, avatarFile }: UserUpdateRequestData) {
     try {
-      if(avatarFile) {
+      if (avatarFile) {
         // FORMATANDO ARQUIVO DE AVATAR PARA O FORMATO CORRETO PARA O ENVIO NA REQUISIÇÃO
         const fileUploadForm = new FormData();
         fileUploadForm.append("avatar", avatarFile);
@@ -106,15 +104,25 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   useEffect(() => {
-    const user = localStorage.getItem("@rocketnotes:user");
     const token = localStorage.getItem("@rocketnotes:token");
 
-    if (user && token) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    async function fetchUserData() {
+      try {
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await api.get("/users");
+        const user = response.data;
 
-      setUserData(JSON.parse(user));
-      setAuthToken(token);
+        setUserData(user);
+        setAuthToken(token!);
+      } catch (error: any) {
+        if (error.response) {
+          alert(error.response.data.message);
+        } else {
+          alert("Não foi possível efetuar o login.")
+        }
+      }
     }
+    fetchUserData();
   }, [])
 
   return (

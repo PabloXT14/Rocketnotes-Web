@@ -1,9 +1,7 @@
 import styled from "styled-components";
-import { Link } from 'react-router-dom';
 
-export const NoteContainer = styled(Link)`
+export const NoteContainer = styled.button`
   width: 100%;
-  display: block;
   background-color: ${({ theme }) => theme.COLORS.BACKGROUND_700};
 
   padding: 1rem 1.375rem;
