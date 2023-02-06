@@ -1,53 +1,132 @@
+import { useEffect, useState } from 'react';
 import { Button } from "../../components/Button";
 import { ButtonText } from "../../components/ButtonText";
 import { DefaultSection } from "../../components/DefaultSection";
 import { Header } from "../../components/Header";
 import { Tag } from "../../components/Tag";
 import { DetailsContent, DetailsContainer, Links } from "./styles";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { api } from '../../services/';
+
+interface Link {
+  id: string;
+  url: string;
+}
+
+interface Tag {
+  id: string;
+  name: string;
+}
+
+interface NoteDetail {
+  id: string;
+  title: string;
+  description: string;
+  links: Link[];
+  tags: Tag[];
+}
 
 export function Details() {
+  const [noteData, setNoteData] = useState<NoteDetail>({} as NoteDetail);
+  const { id } = useParams();
+
   const navigate = useNavigate();
 
-  function goBack() {
+  function handleBack() {
     navigate(-1);
   }
+
+  async function handleRemove() {
+    try {
+      const confirm = window.confirm("Você tem certeza que quer deletar esta nota?");
+      if(confirm) {
+        await api.delete(`/notes/${id}`);
+        alert('Note excluida com sucesso!');
+        navigate(-1);
+      }
+    } catch (error: any) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Não foi possível excluir a nota");
+      }
+    }
+  }
+
+  useEffect(() => {
+    async function fetchNoteData() {
+      try {
+        const response = await api.get(`/notes/${id}`);
+        setNoteData(response.data);
+      } catch (error: any) {
+        if (error.response) {
+          alert(error.response.data.message);
+        } else {
+          alert("Não foi possível carregar os dados da nota.");
+        }
+      }
+    }
+
+    fetchNoteData();
+  }, []);
 
   return (
     <DetailsContainer>
       <Header />
 
-      <main>
-        <DetailsContent>
-          <ButtonText title="Excluir nota" isActive />
+      {
+        noteData &&
+        <main>
+          <DetailsContent>
+            <ButtonText
+              title="Excluir nota"
+              isActive
+              onClick={handleRemove}
+            />
 
-          <h1>
-            Introdução ao React
-          </h1>
+            <h1>
+              {noteData.title}
+            </h1>
 
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          </p>
+            <p>
+              {noteData.description}
+            </p>
 
-          <DefaultSection title="Links úteis">
-            <Links>
-              <li>
-                <a href="https://rocketseat.com.br" target="_blank">https://rocketseat.com.br</a>
-              </li>
-              <li>
-                <a href="https://rocketseat.com.br" target="_blank">https://rocketseat.com.br</a>
-              </li>
-            </Links>
-          </DefaultSection>
+            {
+              noteData.links &&
+              <DefaultSection title="Links úteis">
+                <Links>
+                  {noteData.links.map(link => (
+                    <li key={link.id}>
+                      <a href={link.url} target="_blank">
+                        {link.url}
+                      </a>
+                    </li>
+                  ))}
+                </Links>
+              </DefaultSection>
+            }
 
-          <DefaultSection title="Marcadores">
-            <Tag title="nodejs" />
-            <Tag title="express" />
-          </DefaultSection>
+            {
+              noteData.tags &&
+              <DefaultSection title="Marcadores">
+                {noteData.tags.map(tag => (
+                  <Tag
+                    key={tag.id}
+                    title={tag.name}
+                  />
+                ))}
+              </DefaultSection>
+            }
 
-          <Button title="Voltar" onClick={goBack}/>
-        </DetailsContent>
-      </main>
+            <Button
+              title="Voltar"
+              onClick={handleBack}
+            />
+          </DetailsContent>
+        </main>
+      }
+
     </DetailsContainer>
   )
 }

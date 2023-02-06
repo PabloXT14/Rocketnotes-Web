@@ -81,7 +81,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       }
 
       await api.put("/users", updateUserData);
-      localStorage.setItem("@rocketnotes:user", JSON.stringify(updateUserData));
+      //localStorage.setItem("@rocketnotes:user", JSON.stringify(updateUserData));
 
       setUserData(prevState => {
         return {

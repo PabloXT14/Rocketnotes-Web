@@ -24,7 +24,7 @@ export function Profile() {
 
   const navigate = useNavigate();
 
-  function goBack() {
+  function handleBack() {
     navigate(-1);
   }
 
@@ -53,7 +53,10 @@ export function Profile() {
   return (
     <ProfileContainer>
       <header>
-        <button type="button" onClick={goBack}>
+        <button
+          type="button"
+          onClick={handleBack}
+        >
           <FiArrowLeft />
         </button>
       </header>
