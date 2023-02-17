@@ -13,6 +13,11 @@ export const HomeContainer = styled.div`
     "newnote content" 64px / 250px auto;
 
   background-color: ${({ theme }) => theme.COLORS.BACKGROUND_800};
+
+  > .rings-loader {
+    margin: auto;
+    background-color: red;
+  }
 `;
 
 export const Brand = styled.div`
@@ -64,6 +69,10 @@ export const HomeContent = styled.div`
   flex-direction: column;
   padding: 0 4rem;
   overflow-y: scroll;
+
+  > .rings-loader {
+    background-color: red;
+  }
 `;
 
 export const NewNote = styled(Link)`

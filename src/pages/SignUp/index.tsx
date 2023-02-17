@@ -5,16 +5,20 @@ import { Background, Form, SignUpContainer } from "./styles";
 import { api } from '../../services';
 import { FiMail, FiLock, FiUser } from 'react-icons/fi';
 import { Button } from "../../components/Button";
+import { toast } from 'react-toastify';
 
 export function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
 
   const navigate = useNavigate();
 
   async function handleSignUp(event: FormEvent) {
     event.preventDefault();
+
+    setIsLoadingSignUp(true);
 
     await api.post("/users", {
       name,
@@ -22,14 +26,16 @@ export function SignUp() {
       password
     })
     .then((response) => {
-      alert("Usuário cadastrado com sucesso!");
+      toast.success("Usuário cadastrado com sucesso!");
+      setIsLoadingSignUp(false);
       navigate("/");
     })
     .catch(error => {
+      setIsLoadingSignUp(false);
       if(error.response) {
-        alert(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        alert("Houve um erro ao tentar cadastrar um novo usuário");
+        toast.error("Houve um erro ao tentar cadastrar um novo usuário");
       }
     })
   } 
@@ -65,7 +71,11 @@ export function SignUp() {
           onChange={event => setPassword(event.target.value)}
         />
 
-        <Button title="Cadastrar" onClick={handleSignUp}/>
+        <Button
+          title="Cadastrar"
+          onClick={handleSignUp}
+          loading={isLoadingSignUp}
+        />
 
         <Link to="/">
           Voltar para o login

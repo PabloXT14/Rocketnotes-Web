@@ -15,6 +15,7 @@ export function Profile() {
   const [email, setEmail] = useState(userData.email);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [isLoadingUpdateProfile, setIsLoadingUpdateProfile] = useState(false);
 
   const avatarUrl = userData.avatar_url 
     ? `${api.defaults.baseURL}/files/${userData.avatar_url}` 
@@ -29,6 +30,7 @@ export function Profile() {
   }
 
   async function handleUpdateProfile() {
+    setIsLoadingUpdateProfile(true);
     await updateProfile({
       updateUserData: {
         name,
@@ -37,6 +39,13 @@ export function Profile() {
         oldPassword,
       },
       avatarFile: avatarFile,
+    })
+    .then(() => {
+      setIsLoadingUpdateProfile(false);
+    })
+    .catch((error) => {
+      console.log(error);
+      setIsLoadingUpdateProfile(false);
     })
   }
 
@@ -107,7 +116,11 @@ export function Profile() {
           onChange={event => setNewPassword(event.target.value)}
         />
 
-        <Button title="Salvar" onClick={handleUpdateProfile}/>
+        <Button
+          title="Salvar"
+          onClick={handleUpdateProfile}
+          loading={isLoadingUpdateProfile}
+        />
       </Form>
     </ProfileContainer>
   )

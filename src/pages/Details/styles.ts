@@ -15,6 +15,10 @@ export const DetailsContainer = styled.div`
     overflow-y: scroll;
     padding: 4rem 0;
   }
+
+  > .details-loader {
+    margin: auto;
+  }
 `;
 
 export const Links = styled.ul`

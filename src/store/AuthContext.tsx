@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useState, useEffect } from "react";
 import { api } from "../services";
+import { toast } from "react-toastify";
 
 interface UserData {
   name: string,
@@ -52,13 +53,13 @@ function AuthProvider({ children }: AuthProviderProps) {
       setUserData(user);
       setAuthToken(token);
 
-      alert("Usuário logado com sucesso!");
+      toast.success("Usuário logado com sucesso!");
 
     } catch (error: any) {
       if (error.response) {
-        alert(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        alert("Não foi possível efetuar o login.");
+        toast.error("Não foi possível efetuar o login.");
       }
     }
   }
@@ -93,12 +94,12 @@ function AuthProvider({ children }: AuthProviderProps) {
         }
       });
 
-      alert("Perfil atualizado");
+      toast.success("Perfil atualizado com sucesso!");
     } catch (error: any) {
       if (error.response) {
-        alert(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        alert("Não foi possível atualizar o perfil.");
+        toast.error("Não foi possível atualizar o perfil.");
       }
     }
   }
@@ -115,11 +116,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         setUserData(user);
         setAuthToken(token!);
       } catch (error: any) {
-        if (error.response) {
-          alert(error.response.data.message);
-        } else {
-          alert("Não foi possível efetuar o login.")
-        }
+        console.log(error);
       }
     }
     fetchUserData();

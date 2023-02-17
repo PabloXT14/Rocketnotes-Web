@@ -8,6 +8,8 @@ import { Input } from '../../components/Input';
 import { DefaultSection } from '../../components/DefaultSection';
 import { Note } from './components/Note';
 import { useNavigate } from 'react-router-dom';
+import { RingLoader } from '../../components/RingLoader';
+import { useTheme } from 'styled-components';
 
 interface Tag {
   id: string;
@@ -23,9 +25,10 @@ interface Note {
 
 export function Home() {
   const [tagsFilter, setTagsFilter] = useState<Tag[]>([]);
-  const [tagsFilterSelected, setTagsFilterSelected] = useState<string []>([]);
+  const [tagsFilterSelected, setTagsFilterSelected] = useState<string[]>([]);
   const [notes, setNotes] = useState<Note[]>([]);
   const [noteSearch, setNoteSearch] = useState("");
+  const { COLORS } = useTheme();
 
   const navigate = useNavigate();
 
@@ -36,7 +39,7 @@ export function Home() {
 
     const isTagFilterAlreadySelected = tagsFilterSelected.includes(tagName);
 
-    if(isTagFilterAlreadySelected) {
+    if (isTagFilterAlreadySelected) {
       const filteredTags = tagsFilterSelected.filter(tag => tag !== tagName);
 
       setTagsFilterSelected(filteredTags);
@@ -86,15 +89,25 @@ export function Home() {
             isActive={tagsFilterSelected.length === 0}
           />
         </li>
-        {tagsFilter && tagsFilter.map((tag) => (
-          <li key={tag.id}>
-            <ButtonText
-              title={tag.name}
-              onClick={() => handleTagFilterSelected(tag.name)}
-              isActive={tagsFilterSelected.includes(tag.name)}
-            />
-          </li>
-        ))}
+
+        {tagsFilter.length > 0
+          ? tagsFilter.map((tag) => (
+            <li key={tag.id}>
+              <ButtonText
+                title={tag.name}
+                onClick={() => handleTagFilterSelected(tag.name)}
+                isActive={tagsFilterSelected.includes(tag.name)}
+              />
+            </li>
+          ))
+          :
+          <RingLoader
+            className="rings-loader"
+            color={COLORS.GRAY_100}
+            width={32}
+            height={32}
+          />
+        }
       </Menu>
 
       <Search>
@@ -108,17 +121,25 @@ export function Home() {
       <HomeContent>
         <DefaultSection title='Minhas notas'>
           {
-            notes.map(note => {
+            notes.length > 0
+              ? notes.map(note => {
 
-              return (
-                <Note
-                  key={note.id}
-                  data={note}
-                  onClick={() => handleOpenNoteDetails(note.id)}
-                />
-              )
+                return (
+                  <Note
+                    key={note.id}
+                    data={note}
+                    onClick={() => handleOpenNoteDetails(note.id)}
+                  />
+                )
 
-            })
+              })
+              :
+              <RingLoader
+                className="rings-loader"
+                color={COLORS.GRAY_100}
+                width={80}
+                height={80}
+              />
           }
         </DefaultSection>
       </HomeContent>

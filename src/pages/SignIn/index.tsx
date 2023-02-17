@@ -11,10 +11,20 @@ export function SignIn() {
   const { signIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoadingSignIn, setIsLoadingSignIn] = useState(false);
  
-  function handleSignIn(event: FormEvent) {
+  async function handleSignIn(event: FormEvent) {
     event.preventDefault();
-    signIn(email, password);
+  
+    setIsLoadingSignIn(true);
+    signIn(email, password)
+    .then(() => {
+      setIsLoadingSignIn(false);
+    })
+    .catch((error) => {
+      console.log(error);
+      setIsLoadingSignIn(false);
+    });
   }
 
   return (
@@ -39,7 +49,11 @@ export function SignIn() {
           onChange={event => setPassword(event.target.value)}
         />
 
-        <Button title="Entrar" onClick={handleSignIn}/>
+        <Button
+          title="Entrar"
+          onClick={handleSignIn}
+          loading={isLoadingSignIn}
+        />
 
         <Link to="/register">
           Criar conta

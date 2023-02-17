@@ -7,6 +7,8 @@ import { Tag } from "../../components/Tag";
 import { DetailsContent, DetailsContainer, Links } from "./styles";
 import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../../services/';
+import { RingLoader } from '../../components/RingLoader';
+import { useTheme } from 'styled-components';
 
 interface Link {
   id: string;
@@ -29,6 +31,7 @@ interface NoteDetail {
 export function Details() {
   const [noteData, setNoteData] = useState<NoteDetail>({} as NoteDetail);
   const { id } = useParams();
+  const { COLORS } = useTheme();
 
   const navigate = useNavigate();
 
@@ -75,7 +78,8 @@ export function Details() {
       <Header />
 
       {
-        noteData &&
+        Object.values(noteData).length !== 0
+        ?
         <main>
           <DetailsContent>
             <ButtonText
@@ -125,6 +129,13 @@ export function Details() {
             />
           </DetailsContent>
         </main>
+        :
+        <RingLoader
+          className="details-loader"
+          color={COLORS.GRAY_100}
+          width={80}
+          height={80}
+        />
       }
 
     </DetailsContainer>

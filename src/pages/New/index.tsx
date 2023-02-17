@@ -9,6 +9,7 @@ import { NewContainer, Form } from "./styles";
 import { api } from '../../services/index';
 import { useNavigate } from 'react-router-dom';
 import { ButtonText } from '../../components/ButtonText';
+import { toast } from 'react-toastify';
 
 export function New() {
   const [title, setTitle] = useState("");
@@ -19,6 +20,8 @@ export function New() {
 
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
+
+  const [isLoadingRegisterNote, setIsLoadingRegisterNote] = useState(false);
 
   const navigate = useNavigate();
 
@@ -53,6 +56,8 @@ export function New() {
   }
 
   async function handleRegisterNote() {
+    setIsLoadingRegisterNote(true);
+
     if (!title.trim()) {
       return alert("Digite um título para a nota!");
     }
@@ -73,14 +78,15 @@ export function New() {
         tags,
       })
 
-      alert("Nota criada com sucesso!");
+      toast.success("Nota criada com sucesso!");
 
       navigate(-1);
     } catch (error: any) {
+      setIsLoadingRegisterNote(false);
       if (error.response) {
-        alert(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        alert("Erro ao cadastrar nota!")
+        toast.error("Erro ao cadastrar nota!")
       }
     }
   }
@@ -149,6 +155,7 @@ export function New() {
           <Button
             title="Salvar"
             onClick={handleRegisterNote}
+            loading={isLoadingRegisterNote}
           />
         </Form>
       </main>
