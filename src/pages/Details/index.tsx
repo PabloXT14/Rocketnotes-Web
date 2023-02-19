@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Button } from "../../components/Button";
 import { ButtonText } from "../../components/ButtonText";
 import { DefaultSection } from "../../components/DefaultSection";
@@ -9,6 +9,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../../services/';
 import { RingLoader } from '../../components/RingLoader';
 import { useTheme } from 'styled-components';
+import { toast, Id } from 'react-toastify';
+import { CustomToast } from './components/CustomToast';
 
 interface Link {
   id: string;
@@ -32,6 +34,7 @@ export function Details() {
   const [noteData, setNoteData] = useState<NoteDetail>({} as NoteDetail);
   const { id } = useParams();
   const { COLORS } = useTheme();
+  const toastId = useRef<Id>();
 
   const navigate = useNavigate();
 
@@ -40,20 +43,42 @@ export function Details() {
   }
 
   async function handleRemove() {
-    try {
-      const confirm = window.confirm("Você tem certeza que quer deletar esta nota?");
-      if(confirm) {
+    async function removeNote() {
+      try {
         await api.delete(`/notes/${id}`);
-        alert('Note excluida com sucesso!');
+
+        toast.dismiss(toastId.current);
+        toast.success('Note excluida com sucesso!');
+
         navigate(-1);
-      }
-    } catch (error: any) {
-      if (error.response) {
-        alert(error.response.data.message);
-      } else {
-        alert("Não foi possível excluir a nota");
+      } catch (error: any) {
+        if (error.response) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("Não foi possível excluir a nota");
+        }
       }
     }
+
+    toastId.current = toast.info(
+      <CustomToast>
+        <p>Você tem certeza que quer deletar esta nota?</p>
+        <button
+          onClick={removeNote}>
+          Sim
+        </button>
+
+        <button
+          onClick={() => { toast.dismiss(toastId.current) }}>
+          Não
+        </button>
+      </CustomToast>,
+      {
+        autoClose: false,
+        closeOnClick: false,
+        closeButton: false,
+      }
+    );
   }
 
   useEffect(() => {
@@ -63,9 +88,9 @@ export function Details() {
         setNoteData(response.data);
       } catch (error: any) {
         if (error.response) {
-          alert(error.response.data.message);
+          toast.error(error.response.data.message);
         } else {
-          alert("Não foi possível carregar os dados da nota.");
+          toast.error("Não foi possível carregar os dados da nota.");
         }
       }
     }
@@ -79,63 +104,63 @@ export function Details() {
 
       {
         Object.values(noteData).length !== 0
-        ?
-        <main>
-          <DetailsContent>
-            <ButtonText
-              title="Excluir nota"
-              isActive
-              onClick={handleRemove}
-            />
+          ?
+          <main>
+            <DetailsContent>
+              <ButtonText
+                title="Excluir nota"
+                isActive
+                onClick={handleRemove}
+              />
 
-            <h1>
-              {noteData.title}
-            </h1>
+              <h1>
+                {noteData.title}
+              </h1>
 
-            <p>
-              {noteData.description}
-            </p>
+              <p>
+                {noteData.description}
+              </p>
 
-            {
-              noteData.links &&
-              <DefaultSection title="Links úteis">
-                <Links>
-                  {noteData.links.map(link => (
-                    <li key={link.id}>
-                      <a href={link.url} target="_blank">
-                        {link.url}
-                      </a>
-                    </li>
+              {
+                noteData.links &&
+                <DefaultSection title="Links úteis">
+                  <Links>
+                    {noteData.links.map(link => (
+                      <li key={link.id}>
+                        <a href={link.url} target="_blank">
+                          {link.url}
+                        </a>
+                      </li>
+                    ))}
+                  </Links>
+                </DefaultSection>
+              }
+
+              {
+                noteData.tags &&
+                <DefaultSection title="Marcadores">
+                  {noteData.tags.map(tag => (
+                    <Tag
+                      key={tag.id}
+                      title={tag.name}
+                    />
                   ))}
-                </Links>
-              </DefaultSection>
-            }
+                </DefaultSection>
+              }
 
-            {
-              noteData.tags &&
-              <DefaultSection title="Marcadores">
-                {noteData.tags.map(tag => (
-                  <Tag
-                    key={tag.id}
-                    title={tag.name}
-                  />
-                ))}
-              </DefaultSection>
-            }
-
-            <Button
-              title="Voltar"
-              onClick={handleBack}
-            />
-          </DetailsContent>
-        </main>
-        :
-        <RingLoader
-          className="details-loader"
-          color={COLORS.GRAY_100}
-          width={80}
-          height={80}
-        />
+              <Button
+                title="Voltar"
+                onClick={handleBack}
+              />
+            </DetailsContent>
+          </main>
+          :
+          <RingLoader
+            className="details-loader"
+            color={COLORS.GRAY_100}
+            width={80}
+            height={80}
+          />
       }
 
     </DetailsContainer>

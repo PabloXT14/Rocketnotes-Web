@@ -10,6 +10,7 @@ import { Note } from './components/Note';
 import { useNavigate } from 'react-router-dom';
 import { RingLoader } from '../../components/RingLoader';
 import { useTheme } from 'styled-components';
+import { useQuery } from 'react-query';
 
 interface Tag {
   id: string;
@@ -29,6 +30,15 @@ export function Home() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [noteSearch, setNoteSearch] = useState("");
   const { COLORS } = useTheme();
+
+  const notesQueryId = 1;
+
+  const { data, isError, isLoading } = useQuery(["notes", notesQueryId], async() => {
+    const response = await api.get(`/notes?title=${noteSearch}&tags=${tagsFilterSelected}`);
+
+      return response.data as Note[];
+    }
+  )
 
   const navigate = useNavigate();
 
@@ -63,15 +73,15 @@ export function Home() {
     fetchTags();
   }, [])
 
-  useEffect(() => {
-    async function fetchNotes() {
-      const response = await api.get(`/notes?title=${noteSearch}&tags=${tagsFilterSelected}`);
+  // useEffect(() => {
+  //   async function fetchNotes() {
+  //     const response = await api.get(`/notes?title=${noteSearch}&tags=${tagsFilterSelected}`);
 
-      setNotes(response.data);
-    }
+  //     setNotes(response.data);
+  //   }
 
-    fetchNotes();
-  }, [noteSearch, tagsFilterSelected])
+  //   fetchNotes();
+  // }, [noteSearch, tagsFilterSelected])
 
   return (
     <HomeContainer>
@@ -90,7 +100,7 @@ export function Home() {
           />
         </li>
 
-        {tagsFilter.length > 0
+        {tagsFilter
           ? tagsFilter.map((tag) => (
             <li key={tag.id}>
               <ButtonText
@@ -121,8 +131,8 @@ export function Home() {
       <HomeContent>
         <DefaultSection title='Minhas notas'>
           {
-            notes.length > 0
-              ? notes.map(note => {
+            data
+              ? data.map(note => {
 
                 return (
                   <Note
