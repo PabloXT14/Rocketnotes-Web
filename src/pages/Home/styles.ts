@@ -69,10 +69,6 @@ export const HomeContent = styled.div`
   flex-direction: column;
   padding: 0 4rem;
   overflow-y: scroll;
-
-  > .rings-loader {
-    background-color: red;
-  }
 `;
 
 export const NewNote = styled(Link)`

@@ -12,4 +12,8 @@ export const DefaultSectionContainer = styled.section`
     font-size: 1.25rem;
     font-weight: 400;
   }
+
+  > div.rings-loader {
+    text-align: center;
+  }
 `;
