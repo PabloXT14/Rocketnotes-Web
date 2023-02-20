@@ -27,13 +27,10 @@ interface Note {
 export function Home() {
   const [tagsFilter, setTagsFilter] = useState<Tag[]>([]);
   const [tagsFilterSelected, setTagsFilterSelected] = useState<string[]>([]);
-  const [notes, setNotes] = useState<Note[]>([]);
   const [noteSearch, setNoteSearch] = useState("");
   const { COLORS } = useTheme();
 
-  const notesQueryId = 1;
-
-  const { data, isError, isLoading } = useQuery(["notes", notesQueryId], async() => {
+  const { data, isError, isLoading } = useQuery('notes', async() => {
     const response = await api.get(`/notes?title=${noteSearch}&tags=${tagsFilterSelected}`);
 
       return response.data as Note[];
