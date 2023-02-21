@@ -11,23 +11,15 @@ import { RingLoader } from '../../components/RingLoader';
 import { useTheme } from 'styled-components';
 import { toast, Id } from 'react-toastify';
 import { CustomToast } from './components/CustomToast';
-
-interface Link {
-  id: string;
-  url: string;
-}
-
-interface Tag {
-  id: string;
-  name: string;
-}
+import { ILink } from '../../types/link';
+import { ITag } from '../../types/tag';
 
 interface NoteDetail {
   id: string;
   title: string;
   description: string;
-  links: Link[];
-  tags: Tag[];
+  links: ILink[];
+  tags: ITag[];
 }
 
 export function Details() {

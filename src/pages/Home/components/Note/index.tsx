@@ -1,17 +1,10 @@
 import { ButtonHTMLAttributes } from 'react';
 import { Tag } from '../../../../components/Tag';
+import { INote } from '../../../../types/note';
 import { NoteContainer } from './styles';
 
-type Tag = {
-  id: string;
-  name: string;
-}
-
 type NoteProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  data: {
-    title: string;
-    tags: Tag[];
-  }
+  data: INote;
 }
 
 export function Note({ data, ...rest }: NoteProps) {

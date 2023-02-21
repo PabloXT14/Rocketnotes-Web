@@ -10,32 +10,41 @@ import { Note } from './components/Note';
 import { useNavigate } from 'react-router-dom';
 import { RingLoader } from '../../components/RingLoader';
 import { useTheme } from 'styled-components';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { ITag } from '../../types/tag';
+import { INote } from '../../types/note';
 
-interface Tag {
-  id: string;
-  name: string;
-}
 
-interface Note {
-  id: string;
-  title: string;
-  description: string;
-  tags: Tag[];
+async function getNotes(
+  { noteTitle = '', tagsFilterSelected = [] }:
+    { noteTitle?: string, tagsFilterSelected?: string[] },
+) {
+  const response = await api.get(`/notes?title=${noteTitle}&tags=${tagsFilterSelected}`);
+
+  return response.data as INote[];
 }
 
 export function Home() {
-  const [tagsFilter, setTagsFilter] = useState<Tag[]>([]);
+  const [tagsFilter, setTagsFilter] = useState<ITag[]>([]);
   const [tagsFilterSelected, setTagsFilterSelected] = useState<string[]>([]);
   const [noteSearch, setNoteSearch] = useState("");
   const { COLORS } = useTheme();
 
-  const { data, isError, isLoading } = useQuery('notes', async() => {
-    const response = await api.get(`/notes?title=${noteSearch}&tags=${tagsFilterSelected}`);
+  const client = useQueryClient();
 
-      return response.data as Note[];
+  const { data: notes, isError, isLoading } = useQuery({
+    queryKey: ['notes'],
+    queryFn: () => getNotes({ noteTitle: noteSearch, tagsFilterSelected }),
+  });
+
+  const notesMutation = useMutation({
+    mutationFn: () => {
+      return getNotes({});
+    },
+    onSuccess: () => {
+      client.invalidateQueries(['notes']);
     }
-  )
+  });
 
   const navigate = useNavigate();
 
@@ -68,7 +77,7 @@ export function Home() {
     }
 
     fetchTags();
-  }, [])
+  }, []);
 
   // useEffect(() => {
   //   async function fetchNotes() {
@@ -102,7 +111,10 @@ export function Home() {
             <li key={tag.id}>
               <ButtonText
                 title={tag.name}
-                onClick={() => handleTagFilterSelected(tag.name)}
+                onClick={() => {
+                  handleTagFilterSelected(tag.name)
+                  notesMutation.mutate();
+                }}
                 isActive={tagsFilterSelected.includes(tag.name)}
               />
             </li>
@@ -127,27 +139,25 @@ export function Home() {
 
       <HomeContent>
         <DefaultSection title='Minhas notas'>
-          {
-            data
-              ? data.map(note => {
-
-                return (
-                  <Note
-                    key={note.id}
-                    data={note}
-                    onClick={() => handleOpenNoteDetails(note.id)}
-                  />
-                )
-
-              })
-              :
-              <RingLoader
-                className="rings-loader"
-                color={COLORS.GRAY_100}
-                width={80}
-                height={80}
+          {notes && notes.map(note => {
+            return (
+              <Note
+                key={note.id}
+                data={note}
+                onClick={() => handleOpenNoteDetails(note.id)}
               />
+            )
+          })}
+
+          {isLoading || notesMutation.isLoading &&
+            <RingLoader
+              className="rings-loader"
+              color={COLORS.GRAY_100}
+              width={80}
+              height={80}
+            />
           }
+
         </DefaultSection>
       </HomeContent>
 
