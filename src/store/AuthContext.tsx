@@ -120,7 +120,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       }
     }
     fetchUserData();
-  }, [])
+  }, []);
 
   return (
     <AuthContext.Provider value={{

@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
+import { useRef } from 'react';
+import { useQuery } from 'react-query';
 import { Button } from "../../components/Button";
 import { ButtonText } from "../../components/ButtonText";
 import { DefaultSection } from "../../components/DefaultSection";
@@ -23,7 +24,6 @@ interface NoteDetail {
 }
 
 export function Details() {
-  const [noteData, setNoteData] = useState<NoteDetail>({} as NoteDetail);
   const { id } = useParams();
   const { COLORS } = useTheme();
   const toastId = useRef<Id>();
@@ -73,11 +73,12 @@ export function Details() {
     );
   }
 
-  useEffect(() => {
-    async function fetchNoteData() {
+  const noteQuery = useQuery({
+    queryKey: ['note', id],
+    queryFn: async () => {
       try {
         const response = await api.get(`/notes/${id}`);
-        setNoteData(response.data);
+        return response.data as NoteDetail;
       } catch (error: any) {
         if (error.response) {
           toast.error(error.response.data.message);
@@ -86,73 +87,72 @@ export function Details() {
         }
       }
     }
-
-    fetchNoteData();
-  }, []);
+  })
 
   return (
     <DetailsContainer>
       <Header />
 
       {
-        Object.values(noteData).length !== 0
-          ?
-          <main>
-            <DetailsContent>
-              <ButtonText
-                title="Excluir nota"
-                isActive
-                onClick={handleRemove}
-              />
+        noteQuery.data &&
+        <main>
+          <DetailsContent>
+            <ButtonText
+              title="Excluir nota"
+              isActive
+              onClick={handleRemove}
+            />
 
-              <h1>
-                {noteData.title}
-              </h1>
+            <h1>
+              {noteQuery.data.title}
+            </h1>
 
-              <p>
-                {noteData.description}
-              </p>
+            <p>
+              {noteQuery.data.description}
+            </p>
 
-              {
-                noteData.links &&
-                <DefaultSection title="Links úteis">
-                  <Links>
-                    {noteData.links.map(link => (
-                      <li key={link.id}>
-                        <a href={link.url} target="_blank">
-                          {link.url}
-                        </a>
-                      </li>
-                    ))}
-                  </Links>
-                </DefaultSection>
-              }
-
-              {
-                noteData.tags &&
-                <DefaultSection title="Marcadores">
-                  {noteData.tags.map(tag => (
-                    <Tag
-                      key={tag.id}
-                      title={tag.name}
-                    />
+            {
+              noteQuery.data.links &&
+              <DefaultSection title="Links úteis">
+                <Links>
+                  {noteQuery.data.links.map(link => (
+                    <li key={link.id}>
+                      <a href={link.url} target="_blank">
+                        {link.url}
+                      </a>
+                    </li>
                   ))}
-                </DefaultSection>
-              }
+                </Links>
+              </DefaultSection>
+            }
 
-              <Button
-                title="Voltar"
-                onClick={handleBack}
-              />
-            </DetailsContent>
-          </main>
-          :
-          <RingLoader
-            className="details-loader"
-            color={COLORS.GRAY_100}
-            width={80}
-            height={80}
-          />
+            {
+              noteQuery.data.tags &&
+              <DefaultSection title="Marcadores">
+                {noteQuery.data.tags.map(tag => (
+                  <Tag
+                    key={tag.id}
+                    title={tag.name}
+                  />
+                ))}
+              </DefaultSection>
+            }
+
+            <Button
+              title="Voltar"
+              onClick={handleBack}
+            />
+          </DetailsContent>
+        </main>
+      }
+
+      {noteQuery.isLoading &&
+        <RingLoader
+          className="details-loader"
+          color={COLORS.GRAY_100}
+          width={80}
+          height={80}
+        />
       }
 
     </DetailsContainer>

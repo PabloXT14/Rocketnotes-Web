@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { api } from '../../services/index';
 import { ButtonText } from '../../components/ButtonText';
 import { Header } from '../../components/Header';
@@ -19,7 +19,7 @@ async function getNotes(
   { noteTitle = '', tagsFilterSelected = [] }:
     { noteTitle?: string, tagsFilterSelected?: string[] },
 ) {
-  const response = await api.get(`/notes?title=${noteTitle}&tags=${tagsFilterSelected}`);
+  const response = await api.get(`/notes?title=${noteTitle.trim()}&tags=${tagsFilterSelected}`);
 
   return response.data as INote[];
 }

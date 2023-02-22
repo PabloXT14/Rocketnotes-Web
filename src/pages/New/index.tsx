@@ -58,16 +58,20 @@ export function New() {
   async function handleRegisterNote() {
     setIsLoadingRegisterNote(true);
 
+    if (!title.trim() || newLink.trim() || newTag.trim()) {
+      setIsLoadingRegisterNote(false);
+    }
+
     if (!title.trim()) {
-      return alert("Digite um título para a nota!");
+      return toast.info("Digite um título para a nota!");
     }
 
     if (newLink.trim()) {
-      return alert("Você deixou um link no campo para adicionar, mas não clicou em adicionar. Clique para adicionar ou deixe o campo vazio.");
+      return toast.info("Você deixou um link no campo para adicionar, mas não clicou em adicionar. Clique para adicionar ou deixe o campo vazio.", { autoClose: 10000 });
     }
 
     if (newTag.trim()) {
-      return alert("Você deixou uma tag no campo para adicionar, mas não clicou em adicionar. Clique para adicionar ou deixe o campo vazio.");
+      return toast.info("Você deixou uma tag no campo para adicionar, mas não clicou em adicionar. Clique para adicionar ou deixe o campo vazio.", { autoClose: 10000 });
     }
 
     try {
