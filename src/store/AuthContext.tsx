@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useState, useEffect } from "react";
 import { api } from "../services";
 import { toast } from "react-toastify";
+import { useQuery } from 'react-query';
 
 interface UserData {
   name: string,
@@ -121,6 +122,26 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
     fetchUserData();
   }, []);
+
+  // const userQuery = useQuery({
+  //   queryKey: ["user"],
+  //   queryFn: async () => {
+  //     const token = JSON.parse(localStorage.getItem("@rocketnotes:token") || '');
+
+  //     try {
+  //       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  //       const response = await api.get("/users");
+  //       const user = response.data;
+
+  //       return { user, token };
+  //     } catch (error: any) {
+  //       console.log(error);
+  //     }
+  //   }
+  // });
+
+  // setUserData(userQuery.data?.user);
+  // setAuthToken(userQuery.data?.token);
 
   return (
     <AuthContext.Provider value={{
