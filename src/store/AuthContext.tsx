@@ -1,7 +1,6 @@
 import { createContext, ReactNode, useState, useEffect } from "react";
 import { api } from "../services";
 import { toast } from "react-toastify";
-import { useQuery } from 'react-query';
 
 interface UserData {
   name: string,
