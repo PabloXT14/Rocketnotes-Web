@@ -1,6 +1,6 @@
 <h1 align="center">
     <img alt="Rocketnotes" title="" src=".github/logo-rocketnotes.svg" width="30px"/>
-    Rocketnotes
+    Rocketnotes Web
 </h1>
 
 <p align="center">
@@ -16,17 +16,17 @@
     
    <img alt="License" src="https://img.shields.io/github/license/pabloxt14/Rocketnotes-Web">
 
-   <a href="https://github.com/pabloxt14/Ignite-Shop/stargazers">
-    <img alt="Stargazers" src="https://img.shields.io/github/stars/pabloxt14/Ignite-Shop?style=social">
+   <a href="https://github.com/pabloxt14/Rocketnotes-Web/stargazers">
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/pabloxt14/Rocketnotes-Web?style=social">
   </a>
 </p>
 
 <p>
-  <img src=".github/cover.png" alt="cover ignite-shop" />
+  <img src=".github/cover.png" alt="cover rocketnotes web" />
 </p>
 
 <h4 align="center"> 
-	🚧 Aplicação em Desenvolvimento 🚧
+	🚀 Aplicação em Finalizada 🚀
 </h4>
 
 <p align="center">
@@ -76,12 +76,60 @@ Você pode visualizar o layout do projeto através [desse link](https://www.figm
 
 ### Web
 
+#### SignUp
 <p align="center">
-  <img alt="Animated Web Demonstration" title="#Web" src=".github/ignite_shop-demonstration_01.gif" width="100%">
+  <img
+    alt="Rocketnotes Web Demonstration SignUp"
+    title="Rocketnotes Web Demonstration SignUp"
+    src=".github/rocketnotes-demonstration_01.png" width="100%"
+  />
 </p>
+
+#### SignIn
 <p align="center">
-  <img alt="Animated Web Demonstration" title="#Web" src=".github/ignite_shop-demonstration_02.gif" width="100%">
+  <img
+    alt="Rocketnotes Web Demonstration SignIn"
+    title="Rocketnotes Web Demonstration SignIn"
+    src=".github/rocketnotes-demonstration_02.png" width="100%"
+  />
 </p>
+
+#### Home
+<p align="center">
+  <img
+    alt="Rocketnotes Web Demonstration Home"
+    title="Rocketnotes Web Demonstration Home"
+    src=".github/rocketnotes-demonstration_03.png" width="100%"
+  />
+</p>
+
+#### Perfil
+<p align="center">
+  <img
+    alt="Rocketnotes Web Demonstration Perfil"
+    title="Rocketnotes Web Demonstration Perfil"
+    src=".github/rocketnotes-demonstration_04.png" width="100%"
+  />
+</p>
+
+#### Note Preview
+<p align="center">
+  <img
+    alt="Rocketnotes Web Demonstration Note Preview"
+    title="Rocketnotes Web Demonstration Note Preview"
+    src=".github/rocketnotes-demonstration_05.png" width="100%"
+  />
+</p>
+
+#### Note Create
+<p align="center">
+  <img
+    alt="Rocketnotes Web Demonstration Note Create"
+    title="Rocketnotes Web Demonstration Note Create"
+    src=".github/rocketnotes-demonstration_06.png" width="100%"
+  />
+</p>
+
 
 <!-- ### Mobile
 
@@ -101,7 +149,7 @@ Para acessar o deploy do Website da aplicação basta clicar no link a seguir: [
 
 ## 🚀 How it works
 
-Este projeto contem parte Front-end(React) e Back-end(Node), no entanto neste repositório só está a parte Front-end Web, para acessar o repositório do Back-end acesse o seguinte [link](https://github.com/PabloXT14/Rocketnotes-API)
+Este projeto contem parte Front-end(React) e Back-end(Node), no entanto, neste repositório só está a parte Front-end Web, para acessar o repositório do Back-end acesse o seguinte [link](https://github.com/PabloXT14/Rocketnotes-API)
 <!-- Este projeto é divido em três partes:
 1. Backend (pasta server) 
 2. Frontend (pasta web)
@@ -118,11 +166,12 @@ Antes de baixar o projeto você vai precisar ter instalado na sua máquina as se
 * [Yarn](https://yarnpkg.com/) ou [NPM](https://www.npmjs.com/)
 
 Além disto é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/)
+> Obs: e não se esqueça que também precisa rodar/executar o back-end da aplicação para buscar e checar os dados necessários
 
-Precisará também fazer a seguinte configuração para rodar o projeto:
+<!-- Precisará também fazer a seguinte configuração para rodar o projeto:
 * Baixar e rodar na sua máquina o Back-end da aplicação (que está em outro repositório, como já dito)
 * Colocar dentro do arquivo de configuração do `axios` que esta dentro de `src/services/index.ts`, a `baseURL` de onde está sendo executado o Back-end.
-* Pode ser que o `baseURL` venha com um link de Back-end preenchido, mas este pode estar fora do ar, por isso baixe e rode o Back-end da aplicação de forma separada na sua máquina para não ter erro.
+* Pode ser que o `baseURL` venha com um link de Back-end preenchido, mas este pode estar fora do ar, por isso baixe e rode o Back-end da aplicação de forma separada na sua máquina para não ter erro. -->
 
 <!-- #### 🎲 Rodando o Backend (servidor)
 
@@ -259,7 +308,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 --- -->
 
-## 🦸‍♂️ Author
+## ✍ Author
 
 <a href="https://github.com/PabloXT14">
  <img alt="PabloXT14" title="PabloXT14" src="https://github.com/PabloXT14.png" width="100px" />
