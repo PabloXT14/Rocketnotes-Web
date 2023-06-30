@@ -26,7 +26,7 @@
 </p>
 
 <h4 align="center"> 
-	🚀 Aplicação em Finalizada 🚀
+  🚀 Aplicação Finalizada 🚀
 </h4>
 
 <p align="center">
@@ -310,15 +310,10 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 ## ✍ Author
 
-<a href="https://github.com/PabloXT14">
- <img alt="PabloXT14" title="PabloXT14" src="https://github.com/PabloXT14.png" width="100px" />
- <br />
- <sub><strong>Pablo Alan</strong> 🚀</sub>
-</a>
-
-<br />
+<img alt="PabloXT14" title="PabloXT14" src="https://github.com/PabloXT14.png" width="100px" />
 
 [![Linkedin Badge](https://img.shields.io/badge/-Pablo_Alan-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/pabloalan/)](https://www.linkedin.com/in/pabloalan/) 
+
 [![Gmail Badge](https://img.shields.io/badge/-pabloxt14@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:pabloxt14@gmail.com)](mailto:pabloxt14@gmail.com)
 
 ---
@@ -328,5 +323,3 @@ As seguintes ferramentas foram usadas na construção do projeto:
 Este projeto esta sobe a licença [MIT](./LICENSE).
 
 Feito com 💜 por Pablo Alan 👋🏽 [Entre em contato!](https://www.linkedin.com/in/pabloalan/)
-
----
