@@ -14,10 +14,10 @@
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/pabloxt14/Rocketnotes-Web">
   </a>
     
-   <img alt="License" src="https://img.shields.io/github/license/pabloxt14/Rocketnotes-Web">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
 
-   <a href="https://github.com/pabloxt14/Rocketnotes-Web/stargazers">
-    <img alt="Stargazers" src="https://img.shields.io/github/stars/pabloxt14/Rocketnotes-Web?style=social">
+  <a href="https://github.com/pabloxt14/Rocketnotes-Web/stargazers">
+     <img alt="Stargazers" src="https://img.shields.io/github/stars/pabloxt14/Rocketnotes-Web?style=social">
   </a>
 </p>
 
@@ -240,7 +240,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 -   **[React-Loader-Spinner](https://mhnpd.github.io/react-loader-spinner/docs/intro)**
 -   **[React-Router-DOM](https://reactrouter.com/en/main/start/tutorial)**
 
-> Veja o arquivo  [package.json](https://github.com/pabloxt14/Rocketnotes-Web/package.json)
+> Para mais detalhes das dependências gerais da aplicação veja o arquivo [package.json](https://github.com/PabloXT14/Rocketnotes-Web/blob/main/package.json)
 
 <!-- #### **Server**  ([NodeJS](https://nodejs.org/en/)  +  [TypeScript](https://www.typescriptlang.org/))
 
